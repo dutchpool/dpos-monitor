@@ -37,7 +37,7 @@ def check_all_nodes():
     complete_message = ""
     for result in results:
         if len(result["messages"]) > 0:
-            complete_message += result["environment"] + "\n"
+            complete_message += "\n*" + result["environment"] + "*\n"
             for message in result["messages"]:
                 complete_message += message + "\n"
     if complete_message is not "":
