@@ -25,11 +25,9 @@ export LC_ALL=en_US.UTF-8
 ```
 
 ## Installation
-Clone the git and cp the config
+Clone the git
 ```
 git clone https://github.com/dutchpool/dpos-monitor.git
-cd dpos-monitor
-cp default_configs/config.json config.json
 ```
 * Change settings inside config.json to match your needs.
 * config.json will be loaded by default, but with the parameter -c you could load another config file.

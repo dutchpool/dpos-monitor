@@ -1,10 +1,12 @@
-from src.console.printing import __print
-from src.monitoring.status import check_status
-from src.monitoring.ping import ping_servers
-from src.telegram.telegram import set_telegram_conf, __send_telegram_message
 import sys
 import json
 import argparse
+
+from printing import __print
+from status import check_status
+from ping import ping_servers
+from telegram import set_telegram_conf, __send_telegram_message
+
 
 __author__ = 'dutch_pool'
 __version__ = '0.9.0'
@@ -131,7 +133,7 @@ def get_max_block_height_and_version(status_result):
 
 def check_block_height(host, max_block_height):
     if host.block_height == 0:
-        return host.name + '_' + host.host + ", could not get the block height, it is probably an error in the monitoring code"
+        return host.name + '_' + host.host + ", could not get the block height, make sure the node can be reached."
     elif host.block_height == 403:
         return host.name + '_' + host.host + ", no access to get the block height. Add the ip of the monitoring server to the config"
     elif host.block_height == 500:
@@ -144,7 +146,7 @@ def check_block_height(host, max_block_height):
 
 def check_version(host, version):
     if host.version == "":
-        return host.name + '_' + host.host + ", could not get the version, it is probably an error in the monitoring code."
+        return host.name + '_' + host.host + ", could not get the version, make sure the node can be reached."
     elif host.version == "403":
         return host.name + '_' + host.host + ", no access to get the version. Add the ip of the monitoring server to the config."
     elif host.version == "500":

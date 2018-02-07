@@ -5,10 +5,6 @@
     {
       "name": "oxycoin.io",
       "host": "https://wallet.oxycoin.io"
-    },
-    {
-      "name": "gr33ndragon",
-      "host": "https://wallet.oxynode.net"
     }
   ],
   "peer_nodes": [
