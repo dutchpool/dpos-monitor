@@ -1,0 +1,32 @@
+{
+  "path": "~/lisk-main/",
+  "manager_file": "lisk.sh",
+  "base_hosts": [],
+  "peer_nodes": [
+    {
+      "name": "peer1",
+      "ip": "94.237.29.221",
+      "port": 7000
+    },
+    {
+      "name": "peer2",
+      "ip": "83.136.254.104",
+      "port": 7000
+    },
+    {
+      "name": "peer3",
+      "ip": "209.50.48.177",
+      "port": 7000
+    },
+    {
+      "name": "peer4",
+      "ip": "94.237.64.33",
+      "port": 7000
+    },
+    {
+      "name": "peer5",
+      "ip": "94.237.30.23",
+      "port": 7000
+    }
+  ]
+}

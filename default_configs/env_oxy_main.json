@@ -1,0 +1,26 @@
+{
+  "path": "~/oxy-node/",
+  "manager_file": "oxy_manager.bash",
+  "base_hosts": [
+    {
+      "name": "oxycoin.io",
+      "host": "https://wallet.oxycoin.io"
+    },
+    {
+      "name": "gr33ndragon",
+      "host": "https://wallet.oxynode.net"
+    }
+  ],
+  "peer_nodes": [
+    {
+      "name": "peer1",
+      "ip": "45.63.99.16",
+      "port": 10000
+    },
+    {
+      "name": "peer3",
+      "ip": "195.181.244.46",
+      "port": 10000
+    }
+  ]
+}

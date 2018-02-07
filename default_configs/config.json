@@ -1,0 +1,33 @@
+{
+  "check_ping": true,
+  "check_block_height": true,
+  "check_version": true,
+  "max_blocks_behind": 15,
+  "telegram_settings": {
+    "use_telegram": false,
+    "bot_key": "",
+    "chat_id": ""
+  },
+  "lisk_main_hosts": [],
+  "lisk_test_hosts": [],
+  "lwf_main_hosts": [],
+  "lwf_test_hosts": [],
+  "onz_test_hosts": [],
+  "oxy_main_hosts": [
+    {
+      "name": "oxy_node_1",
+      "host": "1.2.3.4",
+      "port": 10000,
+      "can_ping": true
+    },
+    {
+      "name": "oxy_node_2",
+      "host": "2.3.4.5",
+      "port": 10000,
+      "can_ping": false
+    }
+  ],
+  "oxy_test_hosts": [],
+  "shift_main_hosts": [],
+  "shift_test_hosts": []
+}

@@ -1,0 +1,27 @@
+{
+  "path": "~/oxy-node/",
+  "manager_file": "oxy_manager.bash",
+  "base_hosts": [
+    {
+      "name": "oxycoin.io",
+      "host": "https://twallet.oxycoin.io"
+    }
+  ],
+  "peer_nodes": [
+    {
+      "name": "peer1",
+      "ip": "94.176.236.199",
+      "port": 9998
+    },
+    {
+      "name": "peer2",
+      "ip": "94.176.236.206",
+      "port": 9998
+    },
+    {
+      "name": "peer3",
+      "ip": "94.176.236.203",
+      "port": 9998
+    }
+  ]
+}

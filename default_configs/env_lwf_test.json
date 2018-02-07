@@ -1,0 +1,42 @@
+{
+  "path": "~/lwf-node/",
+  "manager_file": "lwf_manager.bash",
+  "base_hosts": [
+    {
+      "name": "lwf.io",
+      "host": "https://twallet.lwf.io"
+    }
+  ],
+  "peer_nodes": [
+    {
+        "name": "peer1",
+        "ip": "46.101.85.231",
+        "port": 18101
+      },
+      {
+        "name": "peer2",
+        "ip": "128.199.116.31",
+        "port": 18101
+      },
+      {
+       "name": "peer3",
+         "ip": "178.62.214.30",
+        "port": 18101
+      },
+      {
+        "name": "peer4",
+        "ip": "138.197.204.108",
+        "port": 18101
+      },
+      {
+        "name": "peer5",
+        "ip": "104.236.67.20",
+        "port": 18101
+      },
+      {
+        "name": "peer6",
+        "ip": "46.101.74.24",
+        "port": 18101
+      }
+  ]
+}
