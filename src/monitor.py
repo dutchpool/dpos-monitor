@@ -152,7 +152,7 @@ def check_version(host, version):
     elif host.version == "500":
         return host.name + '_' + host.host + ", no (valid) response getting the version. Server could be down."
     elif host.version < version:
-        return host.name + '_' + host.host + ", incorrect version, is " + host.block_height + "should be " + version
+        return host.name + '_' + host.host + ", incorrect version, is " + host.version + "should be " + version
     return None
 
 
