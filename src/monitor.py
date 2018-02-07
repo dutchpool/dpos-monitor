@@ -151,7 +151,7 @@ def check_version(host, version):
         return host.name + '_' + host.host + ", no access to get the version. Add the ip of the monitoring server to the config."
     elif host.version == "500":
         return host.name + '_' + host.host + ", no (valid) response getting the version. Server could be down."
-    elif host.version < version:
+    elif host.version < version and version is not "403" and version is not "500":
         return host.name + '_' + host.host + ", incorrect version, is " + host.version + "should be " + version
     return None
 
