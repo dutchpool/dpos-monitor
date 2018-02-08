@@ -1,6 +1,19 @@
 {
   "path": "~/lisk-main/",
   "manager_file": "lisk.sh",
-  "base_hosts": [],
+  "base_hosts": [
+    {
+      "name": "node01.lisk.io",
+      "host": "https://node01.lisk.io"
+    },
+    {
+      "name": "node02.lisk.io",
+      "host": "https://node02.lisk.io"
+    },
+    {
+      "name": "node03.lisk.io",
+      "host": "https://node03.lisk.io"
+    }
+  ],
   "peer_nodes": []
 }
