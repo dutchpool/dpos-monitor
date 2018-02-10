@@ -37,7 +37,7 @@ def check_all_nodes():
     complete_message = ""
     for result in results:
         if len(result["messages"]) > 0:
-            complete_message += "\n*" + result["environment"] + "*\n"
+            complete_message += "### " + result["environment"] + "###\n"
             for message in result["messages"]:
                 complete_message += message + "\n"
     if complete_message is not "":
@@ -71,7 +71,7 @@ def process_ping_data(ping_result):
     try:
         for host in ping_result:
             if not host["up"]:
-                processed_ping_results.append(host["name"] + ", server seems to be down!")
+                return host["name"] + ":\nCould not reach the server, it might be down!\n"
     except Exception as e:
         __print('Could nog process ping results.')
         print(e)
@@ -84,25 +84,44 @@ def check_status_nodes(status_result):
     max_block_height = max_block_height_and_version["max_block_height"]
     version = max_block_height_and_version["version"]
     monitored_nodes_messages = []
+
+    consensus = get_consensus_messages(status_result, max_block_height, version)
+
     for host in status_result["nodes_to_monitor"]:
         try:
             if conf["check_block_height"]:
                 # Block height
-                block_height_message = check_block_height(host, max_block_height)
+                block_height_message = check_block_height(host, max_block_height, consensus["block_height_consensus"],
+                                                          len(status_result))
                 if block_height_message is not None:
                     monitored_nodes_messages.append(block_height_message)
 
             if conf["check_version"]:
                 # Version
-                version_message = check_version(host, version)
+                version_message = check_version(host, version, consensus["version_consensus"], len(status_result))
                 if version_message is not None:
                     monitored_nodes_messages.append(version_message)
         except Exception as e:
             __print('Unable to get block height and version messages')
             print(e)
-    if len(monitored_nodes_messages) > 0:
-        monitored_nodes_messages.extend(get_messages_per_node(status_result))
     return monitored_nodes_messages
+
+
+def get_consensus_messages(status_result, max_block_height, version):
+    block_height_consensus = 0
+    version_consensus = 0
+    for host in status_result["nodes_to_monitor"]:
+        try:
+            if host.block_height == max_block_height:
+                block_height_consensus += 1
+
+            if host.version == version:
+                version_consensus += 1
+        except Exception as e:
+            __print('Unable to get block height and version messages')
+            print(e)
+    return {"block_height_consensus": block_height_consensus,
+            "version_consensus": version_consensus}
 
 
 def get_max_block_height_and_version(status_result):
@@ -131,43 +150,43 @@ def get_max_block_height_and_version(status_result):
         return {"max_block_height": 0, "version": ""}
 
 
-def check_block_height(host, max_block_height):
+def check_block_height(host, max_block_height, block_height_consensus, total_nodes):
     if host.block_height == 0:
-        return host.name + '_' + host.host + ", could not get the block height, make sure the node can be reached."
+        return host.name + ":\nCould not reach the server, it might be down!\n"
     elif host.block_height == 403:
-        return host.name + '_' + host.host + ", no access to get the block height. Add the ip of the monitoring server to the config"
+        return host.name + ":\nNode api access denied. Is the monitoring server ip whitelisted in the node's config?\n"
     elif host.block_height == 500:
-        return host.name + '_' + host.host + ", no (valid) response getting the block height. Server could be down."
+        return host.name + ":\nNo (valid) response from the server, it might be down!\n"
     elif host.block_height < max_block_height - conf["max_blocks_behind"]:
-        return host.name + '_' + host.host + ", incorrect block height, is " + str(
-            host.block_height) + "should be " + str(max_block_height)
+        consensus_percentage = block_height_consensus / total_nodes * 100
+        block_height_difference = max_block_height - host.block_height
+        line1 = host.name
+        line2 = ":\nincorrect version " + str(host.block_height)
+        line3 = "\nshould be " + str(max_block_height) + "(+" + str(block_height_difference) + ")"
+        line4 = "\nconsensus" + str(consensus_percentage) + "% " + str(block_height_consensus) + "/" + str(
+            total_nodes) + "\n"
+
+        return line1 + line2 + line3 + line4
     return None
 
 
-def check_version(host, version):
+def check_version(host, version, version_consensus, total_nodes):
     if host.version == "":
-        return host.name + '_' + host.host + ", could not get the version, make sure the node can be reached."
+        return host.name + ":\nCould not reach the server, it might be down!\n"
     elif host.version == "403":
-        return host.name + '_' + host.host + ", no access to get the version. Add the ip of the monitoring server to the config."
+        return host.name + ":\nNode api access denied. Is the monitoring server ip whitelisted in the node's config?\n"
     elif host.version == "500":
-        return host.name + '_' + host.host + ", no (valid) response getting the version. Server could be down."
+        return host.name + ":\nNo (valid) response from the server, it might be down!\n"
     elif host.version < version and version is not "403" and version is not "500":
-        return host.name + '_' + host.host + ", incorrect version, is " + host.version + "should be " + version
+        consensus_percentage = version_consensus / total_nodes * 100
+        line1 = host.name
+        line2 = ":\nincorrect version " + host.version
+        line3 = "\nshould be " + version
+        line4 = "\nconsensus" + str(consensus_percentage) + "% " + str(version_consensus) + "/" + str(
+            total_nodes) + "\n"
+
+        return line1 + line2 + line3 + line4
     return None
-
-
-def get_messages_per_node(status_result):
-    messages = []
-    for host in status_result["base_hosts"]:
-        messages.append(
-            host.name + '_' + host.host + ", block height = " + str(host.block_height) + ", version = " + host.version)
-    for host in status_result["peer_nodes"]:
-        messages.append(
-            host.name + '_' + host.host + ", block height = " + str(host.block_height) + ", version = " + host.version)
-    for host in status_result["nodes_to_monitor"]:
-        messages.append(
-            host.name + '_' + host.host + ", block height = " + str(host.block_height) + ", version = " + host.version)
-    return messages
 
 
 try:
