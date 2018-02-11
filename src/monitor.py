@@ -2,10 +2,10 @@ import sys
 import json
 import argparse
 
+from ping import ping_servers
 from printing import __print
 from status import check_status
-from ping import ping_servers
-from telegram import set_telegram_conf, __send_telegram_message
+from telegram import __send_telegram_message, set_telegram_conf
 
 
 __author__ = 'dutch_pool'
@@ -37,7 +37,7 @@ def check_all_nodes():
     complete_message = ""
     for result in results:
         if len(result["messages"]) > 0:
-            complete_message += "### " + result["environment"] + "###\n"
+            complete_message += "***" + result["environment"] + "***\n"
             for message in result["messages"]:
                 complete_message += message + "\n"
     if complete_message is not "":

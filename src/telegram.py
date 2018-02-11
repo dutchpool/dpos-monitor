@@ -1,7 +1,6 @@
 from urllib.parse import urlparse
 
 import requests
-
 from printing import __print
 
 
@@ -22,8 +21,8 @@ def __send_telegram_message(message):
             return
 
         uri = urlparse(
-            'https://api.telegram.org/bot' + telegram_conf["bot_key"] + '/sendMessage?text=' + message + '&chat_id=' +
-            telegram_conf["chat_id"]
+            'https://api.telegram.org/bot' + telegram_conf["bot_key"] + '/sendMessage?chat_id=' + telegram_conf[
+                "chat_id"] + '&text=' + message
         ).geturl()
         requests.get(uri)
     except Exception as e:
