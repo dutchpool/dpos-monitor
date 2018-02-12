@@ -180,11 +180,11 @@ def check_block_height(host, max_block_height, block_height_consensus, total_nod
     elif host.block_height == 500:
         return host.name + ":\nNo (valid) response from the server, it might be down!\n"
     elif host.block_height < max_block_height - conf["max_blocks_behind"]:
-        consensus_percentage = block_height_consensus / total_nodes * 100
+        consensus_percentage = int((block_height_consensus / total_nodes * 100) * 100) / 100
         block_height_difference = max_block_height - host.block_height
         line1 = host.name
-        line2 = ":\nincorrect version " + str(host.block_height)
-        line3 = "\nshould be " + str(max_block_height) + "(" + str(block_height_difference) + ")"
+        line2 = ":\nincorrect version " + str(host.block_height) + " (-" + str(block_height_difference) + ")"
+        line3 = "\nshould be " + str(max_block_height)
         line4 = "\nconsensus " + str(consensus_percentage) + "% " + str(block_height_consensus) + "/" + str(
             total_nodes) + "\n"
 
@@ -200,7 +200,7 @@ def check_version(host, version, version_consensus, total_nodes):
     elif host.version == "500":
         return host.name + ":\nNo (valid) response from the server, it might be down!\n"
     elif host.version < version and version is not "403" and version is not "500":
-        consensus_percentage = version_consensus / total_nodes * 100
+        consensus_percentage = int((version_consensus / total_nodes * 100) * 100) / 100
         line1 = host.name
         line2 = ":\nincorrect version " + host.version
         line3 = "\nshould be " + version
