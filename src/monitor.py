@@ -183,7 +183,7 @@ def check_block_height(host, max_block_height, block_height_consensus, total_nod
         consensus_percentage = int((block_height_consensus / total_nodes * 100) * 100) / 100
         block_height_difference = max_block_height - host.block_height
         line1 = host.name
-        line2 = ":\nincorrect version " + str(host.block_height) + " (-" + str(block_height_difference) + ")"
+        line2 = ":\nincorrect block height " + str(host.block_height) + " (-" + str(block_height_difference) + ")"
         line3 = "\nshould be " + str(max_block_height)
         line4 = "\nconsensus " + str(consensus_percentage) + "% " + str(block_height_consensus) + "/" + str(
             total_nodes) + "\n"
