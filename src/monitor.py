@@ -87,41 +87,26 @@ def check_status_nodes(status_result):
 
     consensus = get_consensus_messages(status_result, max_block_height, version)
 
+    total_nodes = len(status_result["base_hosts"]) + len(status_result["peer_nodes"]) + len(
+        status_result["nodes_to_monitor"])
     for host in status_result["nodes_to_monitor"]:
         try:
             if conf["check_block_height"]:
                 # Block height
                 block_height_message = check_block_height(host, max_block_height, consensus["block_height_consensus"],
-                                                          len(status_result))
+                                                          total_nodes)
                 if block_height_message is not None:
                     monitored_nodes_messages.append(block_height_message)
 
             if conf["check_version"]:
                 # Version
-                version_message = check_version(host, version, consensus["version_consensus"], len(status_result))
+                version_message = check_version(host, version, consensus["version_consensus"], total_nodes)
                 if version_message is not None:
                     monitored_nodes_messages.append(version_message)
         except Exception as e:
             __print('Unable to get block height and version messages')
             print(e)
     return monitored_nodes_messages
-
-
-def get_consensus_messages(status_result, max_block_height, version):
-    block_height_consensus = 0
-    version_consensus = 0
-    for host in status_result["nodes_to_monitor"]:
-        try:
-            if host.block_height == max_block_height:
-                block_height_consensus += 1
-
-            if host.version == version:
-                version_consensus += 1
-        except Exception as e:
-            __print('Unable to get block height and version messages')
-            print(e)
-    return {"block_height_consensus": block_height_consensus,
-            "version_consensus": version_consensus}
 
 
 def get_max_block_height_and_version(status_result):
@@ -150,6 +135,23 @@ def get_max_block_height_and_version(status_result):
         return {"max_block_height": 0, "version": ""}
 
 
+def get_consensus_messages(status_result, max_block_height, version):
+    block_height_consensus = 0
+    version_consensus = 0
+    for host in status_result["nodes_to_monitor"]:
+        try:
+            if host.block_height == max_block_height:
+                block_height_consensus += 1
+
+            if host.version == version:
+                version_consensus += 1
+        except Exception as e:
+            __print('Unable to get block height and version messages')
+            print(e)
+    return {"block_height_consensus": block_height_consensus,
+            "version_consensus": version_consensus}
+
+
 def check_block_height(host, max_block_height, block_height_consensus, total_nodes):
     if host.block_height == 0:
         return host.name + ":\nCould not reach the server, it might be down!\n"
@@ -162,8 +164,8 @@ def check_block_height(host, max_block_height, block_height_consensus, total_nod
         block_height_difference = max_block_height - host.block_height
         line1 = host.name
         line2 = ":\nincorrect version " + str(host.block_height)
-        line3 = "\nshould be " + str(max_block_height) + "(+" + str(block_height_difference) + ")"
-        line4 = "\nconsensus" + str(consensus_percentage) + "% " + str(block_height_consensus) + "/" + str(
+        line3 = "\nshould be " + str(max_block_height) + "(\+" + str(block_height_difference) + ")"
+        line4 = "\nconsensus " + str(consensus_percentage) + "% " + str(block_height_consensus) + "/" + str(
             total_nodes) + "\n"
 
         return line1 + line2 + line3 + line4
@@ -182,7 +184,7 @@ def check_version(host, version, version_consensus, total_nodes):
         line1 = host.name
         line2 = ":\nincorrect version " + host.version
         line3 = "\nshould be " + version
-        line4 = "\nconsensus" + str(consensus_percentage) + "% " + str(version_consensus) + "/" + str(
+        line4 = "\nconsensus " + str(consensus_percentage) + "% " + str(version_consensus) + "/" + str(
             total_nodes) + "\n"
 
         return line1 + line2 + line3 + line4
