@@ -138,6 +138,26 @@ def get_max_block_height_and_version(status_result):
 def get_consensus_messages(status_result, max_block_height, version):
     block_height_consensus = 0
     version_consensus = 0
+    for host in status_result["base_hosts"]:
+        try:
+            if host.block_height == max_block_height:
+                block_height_consensus += 1
+
+            if host.version == version:
+                version_consensus += 1
+        except Exception as e:
+            __print('Unable to get block height and version messages')
+            print(e)
+    for host in status_result["peer_nodes"]:
+        try:
+            if host.block_height == max_block_height:
+                block_height_consensus += 1
+
+            if host.version == version:
+                version_consensus += 1
+        except Exception as e:
+            __print('Unable to get block height and version messages')
+            print(e)
     for host in status_result["nodes_to_monitor"]:
         try:
             if host.block_height == max_block_height:
@@ -164,7 +184,7 @@ def check_block_height(host, max_block_height, block_height_consensus, total_nod
         block_height_difference = max_block_height - host.block_height
         line1 = host.name
         line2 = ":\nincorrect version " + str(host.block_height)
-        line3 = "\nshould be " + str(max_block_height) + "(\+" + str(block_height_difference) + ")"
+        line3 = "\nshould be " + str(max_block_height) + "(" + str(block_height_difference) + ")"
         line4 = "\nconsensus " + str(consensus_percentage) + "% " + str(block_height_consensus) + "/" + str(
             total_nodes) + "\n"
 
