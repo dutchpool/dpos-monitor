@@ -1,5 +1,5 @@
 # DPoS Monitor
-Current version 0.9.0
+Current version 1.0.0
 
 Currently the dpos-monitor can monitor nodes for Lisk, Lwf, Onz, Oxy and Shift.
 It can:
