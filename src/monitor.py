@@ -9,7 +9,7 @@ from telegram import __send_telegram_message, set_telegram_conf
 
 
 __author__ = 'dutch_pool'
-__version__ = '0.9.0'
+__version__ = '1.0.0'
 
 if sys.version_info[0] < 3:
     print('python2 not supported, please use python3')
@@ -28,7 +28,8 @@ def check_all_nodes():
                {"environment": "Lisk test", "messages": check_nodes("lisk_test", conf["lisk_test_hosts"])},
                {"environment": "Lwf main", "messages": check_nodes("lwf_main", conf["lwf_main_hosts"])},
                {"environment": "Lwf test", "messages": check_nodes("lwf_test", conf["lwf_test_hosts"])},
-               {"environment": "Onz test", "messages": check_nodes("oxy_test", conf["oxy_test_hosts"])},
+               {"environment": "Onz main", "messages": check_nodes("onz_main", conf["onz_main_hosts"])},
+               {"environment": "Onz test", "messages": check_nodes("onz_test", conf["onz_test_hosts"])},
                {"environment": "Oxy main", "messages": check_nodes("oxy_main", conf["oxy_main_hosts"])},
                {"environment": "Oxy test", "messages": check_nodes("oxy_test", conf["oxy_test_hosts"])},
                {"environment": "Shift main", "messages": check_nodes("shift_main", conf["shift_main_hosts"])},
