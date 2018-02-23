@@ -57,7 +57,7 @@ Add the ip-addresses of the servers running dpos-monitor to the config.json of t
 Edit your crontab with the example below (command: crontab -e)
 
 ```
-*/15 * * * * cd ~/dpos-monitor && python3 ~/dpos-monitor/remote_check.py >> ~/dpos-monitor/logs/remote_check.log 2>&1
+*/15 * * * * cd ~/dpos-monitor && python3 ~/dpos-monitor/src/monitor.py >> ~/dpos-monitor/logs/monitor.log 2>&1
 ```
 
 ## Telegram bot
