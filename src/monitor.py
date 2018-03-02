@@ -72,7 +72,7 @@ def process_ping_data(ping_result):
     try:
         for host in ping_result:
             if not host["up"]:
-                return host["name"] + ":\nCould not reach the server, it might be down!\n"
+                processed_ping_results.append(host["name"] + ":\nCould not reach the server, it might be down!\n")
     except Exception as e:
         __print('Could nog process ping results.')
         print(e)
