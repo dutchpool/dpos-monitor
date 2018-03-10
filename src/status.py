@@ -74,7 +74,7 @@ def get_nodes_to_monitor_status(nodes, conf):
 def get_block_height(host):
     try:
         uri = host["host"] + "/api/blocks/getHeight"
-        response = requests.get(uri, timeout=5)
+        response = requests.get(uri, timeout=10)
         if response.status_code == 200:
             json_response = response.json()
             if json_response["success"]:
@@ -94,7 +94,7 @@ def get_block_height(host):
 def get_version(host):
     try:
         uri = host["host"] + "/api/peers/version"
-        response = requests.get(uri, timeout=5)
+        response = requests.get(uri, timeout=10)
         if response.status_code == 200:
             json_response = response.json()
             if json_response["success"]:
