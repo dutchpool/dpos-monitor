@@ -4,7 +4,7 @@
   "base_hosts": [
     {
       "name": "shiftnrg.org",
-      "host": "https://twallet.shiftnrg.org"
+      "host": "https://wallet.testnet.shiftnrg.org"
     }
   ],
   "peer_nodes": [
