@@ -1,15 +1,14 @@
 import sys
 import json
 import argparse
-
+from distutils.version import StrictVersion
 from ping import ping_servers
 from printing import __print
 from status import check_status
 from telegram import __send_telegram_message, set_telegram_conf
 
-
 __author__ = 'dutch_pool'
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 if sys.version_info[0] < 3:
     print('python2 not supported, please use python3')
@@ -24,16 +23,29 @@ args = parser.parse_args()
 
 
 def check_all_nodes():
-    results = [{"environment": "Lisk main", "messages": check_nodes("lisk_main", conf["lisk_main_hosts"])},
-               {"environment": "Lisk test", "messages": check_nodes("lisk_test", conf["lisk_test_hosts"])},
-               {"environment": "Lwf main", "messages": check_nodes("lwf_main", conf["lwf_main_hosts"])},
-               {"environment": "Lwf test", "messages": check_nodes("lwf_test", conf["lwf_test_hosts"])},
-               {"environment": "Onz main", "messages": check_nodes("onz_main", conf["onz_main_hosts"])},
-               {"environment": "Onz test", "messages": check_nodes("onz_test", conf["onz_test_hosts"])},
-               {"environment": "Oxy main", "messages": check_nodes("oxy_main", conf["oxy_main_hosts"])},
-               {"environment": "Oxy test", "messages": check_nodes("oxy_test", conf["oxy_test_hosts"])},
-               {"environment": "Shift main", "messages": check_nodes("shift_main", conf["shift_main_hosts"])},
-               {"environment": "Shift test", "messages": check_nodes("shift_test", conf["shift_test_hosts"])}]
+    results = []
+    if "kapu_main_hosts" in conf:
+        results.append({"environment": "Kapu main", "messages": check_nodes("kapu_main", conf["kapu_main_hosts"])})
+    if "lisk_main_hosts" in conf:
+        results.append({"environment": "Lisk main", "messages": check_nodes("lisk_main", conf["lisk_main_hosts"])})
+    if "lisk_test_hosts" in conf:
+        results.append({"environment": "Lisk test", "messages": check_nodes("lisk_test", conf["lisk_test_hosts"])})
+    if "lwf_main_hosts" in conf:
+        results.append({"environment": "Lwf main", "messages": check_nodes("lwf_main", conf["lwf_main_hosts"])})
+    if "lwf_test_hosts" in conf:
+        results.append({"environment": "Lwf test", "messages": check_nodes("lwf_test", conf["lwf_test_hosts"])})
+    if "onz_main_hosts" in conf:
+        results.append({"environment": "Onz main", "messages": check_nodes("onz_main", conf["onz_main_hosts"])})
+    if "onz_test_hosts" in conf:
+        results.append({"environment": "Onz test", "messages": check_nodes("onz_test", conf["onz_test_hosts"])})
+    if "oxy_main_hosts" in conf:
+        results.append({"environment": "Oxy main", "messages": check_nodes("oxy_main", conf["oxy_main_hosts"])})
+    if "oxy_test_hosts" in conf:
+        results.append({"environment": "Oxy test", "messages": check_nodes("oxy_test", conf["oxy_test_hosts"])})
+    if "shift_main_hosts" in conf:
+        results.append({"environment": "Shift main", "messages": check_nodes("shift_main", conf["shift_main_hosts"])})
+    if "shift_test_hosts" in conf:
+        results.append({"environment": "Shift test", "messages": check_nodes("shift_test", conf["shift_test_hosts"])})
 
     complete_message = ""
     for result in results:
@@ -43,6 +55,7 @@ def check_all_nodes():
                 complete_message += message + "\n"
     if complete_message is not "":
         __send_telegram_message(complete_message)
+    print(complete_message)
 
 
 def check_nodes(environment, nodes_to_monitor):
@@ -113,21 +126,21 @@ def check_status_nodes(status_result):
 def get_max_block_height_and_version(status_result):
     try:
         max_block_height = 0
-        version = ""
+        version = "0.0.0"
         for host in status_result["base_hosts"]:
             if host.block_height > max_block_height:
                 max_block_height = host.block_height
-            if host.version > version:
+            if StrictVersion(host.version) > StrictVersion(version):
                 version = host.version
         for host in status_result["peer_nodes"]:
             if host.block_height > max_block_height:
                 max_block_height = host.block_height
-            if host.version > version:
+            if StrictVersion(host.version) > StrictVersion(version):
                 version = host.version
         for host in status_result["nodes_to_monitor"]:
             if host.block_height > max_block_height:
                 max_block_height = host.block_height
-            if host.version > version:
+            if StrictVersion(host.version) > StrictVersion(version):
                 version = host.version
         return {"max_block_height": max_block_height, "version": version}
     except Exception as e:
@@ -200,7 +213,7 @@ def check_version(host, version, version_consensus, total_nodes):
         return host.name + ":\nNode api access denied. Is the monitoring server ip whitelisted in the node's config?\n"
     elif host.version == "500":
         return host.name + ":\nNo (valid) response from the server, it might be down!\n"
-    elif host.version < version and version is not "403" and version is not "500":
+    elif StrictVersion(host.version) < StrictVersion(version) and version is not "403" and version is not "500":
         consensus_percentage = int((version_consensus / total_nodes * 100) * 100) / 100
         line1 = host.name
         line2 = ":\nincorrect version " + host.version
