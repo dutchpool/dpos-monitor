@@ -1,0 +1,12 @@
+{
+  "path": "",
+  "manager_file": "",
+  "base_hosts": [],
+  "peer_nodes": [
+    {
+      "name": "peer1",
+      "ip": "108.61.99.198",
+      "port": 5500
+    }
+  ]
+}

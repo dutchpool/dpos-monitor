@@ -8,6 +8,7 @@
     "bot_key": "",
     "chat_id": ""
   },
+  "kapu_main_hosts": [],
   "lisk_main_hosts": [],
   "lisk_test_hosts": [],
   "lwf_main_hosts": [],
@@ -29,6 +30,7 @@
     }
   ],
   "oxy_test_hosts": [],
+  "ripa_main_hosts": [],
   "shift_main_hosts": [],
   "shift_test_hosts": []
 }
