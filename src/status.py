@@ -108,7 +108,7 @@ def get_version(host):
     except Exception as e:
         __print('Unable to get version ' + host["host"])
         print(e)
-        return ""
+        return "0.0.0"
 
 
 def check_status(environment_conf, nodes_to_monitor, conf):
