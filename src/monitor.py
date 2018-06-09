@@ -8,7 +8,7 @@ from status import check_status
 from telegram import __send_telegram_message, set_telegram_conf
 
 __author__ = 'dutch_pool'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 
 if sys.version_info[0] < 3:
     print('python2 not supported, please use python3')
@@ -148,7 +148,7 @@ def get_max_block_height_and_version(status_result):
     except Exception as e:
         __print('Unable to get max block height and version')
         print(e)
-        return {"max_block_height": 0, "version": ""}
+        return {"max_block_height": 0, "version": "0.0.0"}
 
 
 def get_consensus_messages(status_result, max_block_height, version):
@@ -209,7 +209,7 @@ def check_block_height(host, max_block_height, block_height_consensus, total_nod
 
 
 def check_version(host, version, version_consensus, total_nodes):
-    if host.version == "":
+    if host.version == "0.0.0":
         return host.name + ":\nCould not reach the server, it might be down!\n"
     elif host.version == "403":
         return host.name + ":\nNode api access denied. Is the monitoring server ip whitelisted in the node's config?\n"
