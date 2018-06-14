@@ -130,19 +130,19 @@ def get_max_block_height_and_version(status_result):
         max_block_height = 0
         version = "0.0.0"
         for host in status_result["base_hosts"]:
-            if host.block_height > max_block_height:
+            if conf["check_block_height"] and host.block_height > max_block_height:
                 max_block_height = host.block_height
-            if StrictVersion(host.version) > StrictVersion(version):
+            if conf["check_version"] and StrictVersion(host.version) > StrictVersion(version):
                 version = host.version
         for host in status_result["peer_nodes"]:
-            if host.block_height > max_block_height:
+            if conf["check_block_height"] and host.block_height > max_block_height:
                 max_block_height = host.block_height
-            if StrictVersion(host.version) > StrictVersion(version):
+            if conf["check_version"] and StrictVersion(host.version) > StrictVersion(version):
                 version = host.version
         for host in status_result["nodes_to_monitor"]:
-            if host.block_height > max_block_height:
+            if conf["check_block_height"] and host.block_height > max_block_height:
                 max_block_height = host.block_height
-            if StrictVersion(host.version) > StrictVersion(version):
+            if conf["check_version"] and StrictVersion(host.version) > StrictVersion(version):
                 version = host.version
         return {"max_block_height": max_block_height, "version": version}
     except Exception as e:
