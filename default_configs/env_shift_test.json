@@ -4,49 +4,8 @@
   "base_hosts": [
     {
       "name": "shiftnrg.org",
-      "host": "https://wallet.testnet.shiftnrg.org"
+      "host": "https://twallet.shiftnrg.org"
     }
   ],
-  "peer_nodes": [
-    {
-      "name": "peer1",
-      "ip": "192.154.224.140",
-      "port": 9501
-    },
-    {
-      "name": "peer2",
-      "ip": "192.154.224.140",
-      "port": 9502
-    },
-    {
-      "name": "peer3",
-      "ip": "213.32.88.105",
-      "port": 9405
-    },
-    {
-      "name": "peer4",
-      "ip": "194.135.92.93",
-      "port": 9405
-    },
-    {
-      "name": "peer5",
-      "ip": "45.76.143.240",
-      "port": 9405
-    },
-    {
-      "name": "peer6",
-      "ip": "45.76.143.253",
-      "port": 9405
-    },
-    {
-      "name": "peer7",
-      "ip": "45.76.129.173",
-      "port": 9405
-    },
-    {
-      "name": "peer8",
-      "ip": "45.32.176.167",
-      "port": 9405
-    }
-  ]
+  "peer_nodes": []
 }
