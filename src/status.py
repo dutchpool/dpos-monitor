@@ -1,17 +1,16 @@
 import requests
-
 from printing import __print
-
 
 __author__ = 'dutch_pool'
 
 
 class Host(object):
-    def __init__(self, name, host, block_height, version):
+    def __init__(self, name, host, block_height, version, peers):
         self.name = name
         self.host = host
         self.block_height = block_height
         self.version = version
+        self.peers = peers
 
 
 def get_base_hosts_status(hosts, conf):
@@ -24,7 +23,8 @@ def get_base_hosts_status(hosts, conf):
                 block_height = get_block_height(host)
             if conf["check_version"]:
                 version = get_version(host)
-            base_hosts.append(Host(host["name"], host["host"], block_height, version))
+            peers = get_peers(host)
+            base_hosts.append(Host(host["name"], host["host"], block_height, version, peers))
         except Exception as e:
             __print('Unable to check base host status ' + host["host"])
             print(e)
@@ -45,7 +45,8 @@ def get_peer_nodes_status(peers, conf):
                 block_height = get_block_height(host)
             if conf["check_version"]:
                 version = get_version(host)
-            peer_nodes.append(Host(host["name"], host["host"], block_height, version))
+            peers = get_peers(host)
+            peer_nodes.append(Host(host["name"], host["host"], block_height, version, peers))
             index += 1
         except Exception as e:
             __print('Unable to check peer nodes status ' + peer["name"])
@@ -64,7 +65,8 @@ def get_nodes_to_monitor_status(nodes, conf):
                 block_height = get_block_height(host)
             if conf["check_version"]:
                 version = get_version(host)
-            nodes_to_monitor.append(Host(host["name"], host["host"], block_height, version))
+            peers = get_peers(host)
+            nodes_to_monitor.append(Host(host["name"], host["host"], block_height, version, peers))
         except Exception as e:
             __print('Unable to check nodes to monitor status ' + node["name"])
             print(e)
@@ -109,6 +111,22 @@ def get_version(host):
         __print('Unable to get version ' + host["host"])
         print(e)
         return "0.0.0"
+
+
+def get_peers(host):
+    try:
+        uri = host["host"] + "/api/peers"
+        response = requests.get(uri, timeout=10)
+        if response.status_code == 200:
+            json_response = response.json()
+            if json_response["success"]:
+                return json_response["peers"]
+        else:
+            return []
+    except Exception as e:
+        __print('Unable to get peers ' + host["host"])
+        print(e)
+        return []
 
 
 def check_status(environment_conf, nodes_to_monitor, conf):
