@@ -1,21 +1,16 @@
 {
   "path": "",
   "manager_file": "",
-  "base_hosts": [],
+  "base_hosts": [
+    {
+      "name": "api.ripaex.io",
+      "host": "https://api.ripaex.io/"
+    }
+  ],
   "peer_nodes": [
     {
       "name": "peer1",
-      "ip": "108.61.99.198",
-      "port": 5500
-    },
-    {
-      "name": "peer2",
-      "ip": "54.37.235.26",
-      "port": 5500
-    },
-    {
-      "name": "peer3",
-      "ip": "51.15.220.208",
+      "ip": "206.189.230.23",
       "port": 5500
     }
   ]
