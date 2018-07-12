@@ -24,6 +24,9 @@ args = parser.parse_args()
 
 def check_all_nodes():
     results = []
+    if "adamant_main_hosts" in conf:
+        results.append(
+            {"environment": "Adamant main", "messages": check_nodes("adamant_main", conf["adamant_main_hosts"])})
     if "kapu_main_hosts" in conf:
         results.append({"environment": "Kapu main", "messages": check_nodes("kapu_main", conf["kapu_main_hosts"])})
     if "lisk_main_hosts" in conf:
@@ -107,7 +110,7 @@ def check_status_nodes(status_result):
     consensus = get_consensus_messages(status_result, max_block_height, version)
 
     # total_nodes = len(status_result["base_hosts"]) + len(status_result["peer_nodes"]) + len(
-    #     status_result["nodes_to_monitor"])
+    # status_result["nodes_to_monitor"])
     for host in status_result["nodes_to_monitor"]:
         try:
             if conf["check_block_height"]:
@@ -164,7 +167,7 @@ def get_max_block_height_and_version(status_result):
                     version = peer["version"]
         return {"max_block_height": max_block_height, "version": version}
     except Exception as e:
-        __print('Unable to get max block height and version')
+        __print('Unable to get max block height and version' + status_result["nodes_to_monitor"][0]["name"])
         print(e)
         return {"max_block_height": 0, "version": "0.0.0"}
 
