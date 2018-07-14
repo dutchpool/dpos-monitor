@@ -5,21 +5,16 @@
   "peer_nodes": [
     {
       "name": "peer1",
-      "ip": "209.250.249.147",
-      "port": 9700
-    },
-    {
-      "name": "peer2",
       "ip": "51.15.93.241",
       "port": 9700
     },
     {
-      "name": "peer3",
+      "name": "peer2",
       "ip": "185.5.54.51",
       "port": 9700
     },
     {
-      "name": "peer4",
+      "name": "peer3",
       "ip": "88.150.138.115",
       "port": 9700
     }
