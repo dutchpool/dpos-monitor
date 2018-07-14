@@ -27,6 +27,8 @@ def check_all_nodes():
     if "adamant_main_hosts" in conf:
         results.append(
             {"environment": "Adamant main", "messages": check_nodes("adamant_main", conf["adamant_main_hosts"])})
+    if "blockpool_main_hosts" in conf:
+        results.append({"environment": "Blockpool main", "messages": check_nodes("blockpool_main", conf["blockpool_main_hosts"])})
     if "kapu_main_hosts" in conf:
         results.append({"environment": "Kapu main", "messages": check_nodes("kapu_main", conf["kapu_main_hosts"])})
     if "lisk_main_hosts" in conf:
@@ -141,33 +143,48 @@ def get_max_block_height_and_version(status_result):
             if conf["check_version"] and StrictVersion(host.version) > StrictVersion(version):
                 version = host.version
             for peer in host.peers:
-                if conf["check_block_height"] and peer["height"] > max_block_height:
-                    max_block_height = peer["height"]
-                if conf["check_version"] and StrictVersion(peer["version"]) > StrictVersion(version):
-                    version = peer["version"]
+                if "height" in peer:
+                    if conf["check_block_height"] and peer["height"] > max_block_height:
+                        max_block_height = peer["height"]
+                if "version" in peer:
+                    try:
+                        if conf["check_version"] and StrictVersion(peer["version"]) > StrictVersion(version):
+                            version = peer["version"]
+                    except Exception as exception:
+                        print(exception)
         for host in status_result["peer_nodes"]:
             if conf["check_block_height"] and host.block_height > max_block_height:
                 max_block_height = host.block_height
             if conf["check_version"] and StrictVersion(host.version) > StrictVersion(version):
                 version = host.version
             for peer in host.peers:
-                if conf["check_block_height"] and peer["height"] > max_block_height:
-                    max_block_height = peer["height"]
-                if conf["check_version"] and StrictVersion(peer["version"]) > StrictVersion(version):
-                    version = peer["version"]
+                if "height" in peer:
+                    if conf["check_block_height"] and peer["height"] > max_block_height:
+                        max_block_height = peer["height"]
+                if "version" in peer:
+                    try:
+                        if conf["check_version"] and StrictVersion(peer["version"]) > StrictVersion(version):
+                            version = peer["version"]
+                    except Exception as exception:
+                        print(exception)
         for host in status_result["nodes_to_monitor"]:
             if conf["check_block_height"] and host.block_height > max_block_height:
                 max_block_height = host.block_height
             if conf["check_version"] and StrictVersion(host.version) > StrictVersion(version):
                 version = host.version
             for peer in host.peers:
-                if conf["check_block_height"] and peer["height"] > max_block_height:
-                    max_block_height = peer["height"]
-                if conf["check_version"] and StrictVersion(peer["version"]) > StrictVersion(version):
-                    version = peer["version"]
+                if "height" in peer:
+                    if conf["check_block_height"] and peer["height"] > max_block_height:
+                        max_block_height = peer["height"]
+                if "version" in peer:
+                    try:
+                        if conf["check_version"] and StrictVersion(peer["version"]) > StrictVersion(version):
+                            version = peer["version"]
+                    except Exception as exception:
+                        print(exception)
         return {"max_block_height": max_block_height, "version": version}
     except Exception as e:
-        __print('Unable to get max block height and version' + status_result["nodes_to_monitor"][0]["name"])
+        __print('Unable to get max block height and version')
         print(e)
         return {"max_block_height": 0, "version": "0.0.0"}
 
@@ -186,10 +203,12 @@ def get_consensus_messages(status_result, max_block_height, version):
                 version_consensus += 1
             for peer in host.peers:
                 total_nodes += 1
-                if peer["height"] == max_block_height:
-                    block_height_consensus += 1
-                if peer["version"] == version:
-                    version_consensus += 1
+                if "height" in peer:
+                    if peer["height"] == max_block_height:
+                        block_height_consensus += 1
+                if "version" in peer:
+                    if peer["version"] == version:
+                        version_consensus += 1
         except Exception as e:
             __print('Unable to get block height and version messages')
             print(e)
@@ -203,10 +222,12 @@ def get_consensus_messages(status_result, max_block_height, version):
                 version_consensus += 1
             for peer in host.peers:
                 total_nodes += 1
-                if peer["height"] == max_block_height:
-                    block_height_consensus += 1
-                if peer["version"] == version:
-                    version_consensus += 1
+                if "height" in peer:
+                    if peer["height"] == max_block_height:
+                        block_height_consensus += 1
+                if "version" in peer:
+                    if peer["version"] == version:
+                        version_consensus += 1
         except Exception as e:
             __print('Unable to get block height and version messages')
             print(e)
@@ -220,10 +241,12 @@ def get_consensus_messages(status_result, max_block_height, version):
                 version_consensus += 1
             for peer in host.peers:
                 total_nodes += 1
-                if peer["height"] == max_block_height:
-                    block_height_consensus += 1
-                if peer["version"] == version:
-                    version_consensus += 1
+                if "height" in peer:
+                    if peer["height"] == max_block_height:
+                        block_height_consensus += 1
+                if "version" in peer:
+                    if peer["version"] == version:
+                        version_consensus += 1
         except Exception as e:
             __print('Unable to get block height and version messages')
             print(e)
