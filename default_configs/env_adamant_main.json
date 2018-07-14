@@ -1,6 +1,11 @@
 {
   "path": "",
   "manager_file": "",
-  "base_hosts": [],
+  "base_hosts": [
+    {
+      "name": "adamant.im",
+      "host": "https://clown.adamant.im/api/blocks/getHeight"
+    }
+  ],
   "peer_nodes": []
 }
