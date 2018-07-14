@@ -8,6 +8,7 @@
     "bot_key": "",
     "chat_id": ""
   },
+  "blockpool_main_hosts": [],
   "adamant_main_hosts": [],
   "kapu_main_hosts": [],
   "lisk_main_hosts": [],
