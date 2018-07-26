@@ -204,7 +204,7 @@ def get_consensus_messages(status_result, max_block_height, version):
             for peer in host.peers:
                 total_nodes += 1
                 if "height" in peer:
-                    if peer["height"] == max_block_height:
+                    if max_block_height >= peer["height"] >= max_block_height - 2:
                         block_height_consensus += 1
                 if "version" in peer:
                     if peer["version"] == version:
@@ -223,7 +223,7 @@ def get_consensus_messages(status_result, max_block_height, version):
             for peer in host.peers:
                 total_nodes += 1
                 if "height" in peer:
-                    if peer["height"] == max_block_height:
+                    if max_block_height >= peer["height"] >= max_block_height - 2:
                         block_height_consensus += 1
                 if "version" in peer:
                     if peer["version"] == version:
@@ -242,7 +242,7 @@ def get_consensus_messages(status_result, max_block_height, version):
             for peer in host.peers:
                 total_nodes += 1
                 if "height" in peer:
-                    if peer["height"] == max_block_height:
+                    if max_block_height >= peer["height"] >= max_block_height - 2:
                         block_height_consensus += 1
                 if "version" in peer:
                     if peer["version"] == version:
