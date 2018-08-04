@@ -56,6 +56,9 @@ def check_all_nodes():
     if "swapblocks_test_hosts" in conf:
         results.append({"environment": "Swapblocks test",
                         "messages": check_nodes("swapblocks_test", conf["swapblocks_test_hosts"])})
+    if "swapblocks_main_hosts" in conf:
+        results.append({"environment": "Swapblocks main",
+                        "messages": check_nodes("swapblocks_main", conf["swapblocks_main_hosts"])})
 
     complete_message = ""
     for result in results:
