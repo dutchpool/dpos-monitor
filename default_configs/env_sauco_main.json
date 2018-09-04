@@ -1,0 +1,11 @@
+{
+  "path": "~/sauco/",
+  "manager_file": "sauco_manager.bash",
+  "base_hosts": [
+    {
+      "name": "sauco.io",
+      "host": "https://wallet.sauco.io"
+    }
+  ],
+  "peer_nodes": []
+}
