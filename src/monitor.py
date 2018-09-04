@@ -49,6 +49,8 @@ def check_all_nodes():
         results.append({"environment": "Oxy test", "messages": check_nodes("oxy_test", conf["oxy_test_hosts"])})
     if "ripa_main_hosts" in conf:
         results.append({"environment": "Ripa main", "messages": check_nodes("ripa_main", conf["ripa_main_hosts"])})
+    if "sauco_main_hosts" in conf:
+        results.append({"environment": "Sauco main", "messages": check_nodes("sauco_main", conf["sauco_main_hosts"])})
     if "shift_main_hosts" in conf:
         results.append({"environment": "Shift main", "messages": check_nodes("shift_main", conf["shift_main_hosts"])})
     if "shift_test_hosts" in conf:
