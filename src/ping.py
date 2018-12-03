@@ -1,6 +1,5 @@
 import os
-
-from printing import __print
+from src.printing import __print
 
 
 __author__ = 'dutch_pool'
