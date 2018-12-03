@@ -3,8 +3,8 @@
   "manager_file": "",
   "base_hosts": [
     {
-      "name": "adamant.im",
-      "host": "https://clown.adamant.im/api/blocks/getHeight"
+      "name": "Seed server",
+      "host": "http://185.85.18.192:4100"
     }
   ],
   "peer_nodes": []
