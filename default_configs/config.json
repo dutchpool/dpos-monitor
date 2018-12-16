@@ -8,8 +8,8 @@
     "bot_key": "",
     "chat_id": ""
   },
-  "blockpool_main_hosts": [],
   "adamant_main_hosts": [],
+  "blockpool_main_hosts": [],
   "kapu_main_hosts": [],
   "lisk_main_hosts": [],
   "lisk_test_hosts": [],
@@ -34,9 +34,10 @@
   "oxy_test_hosts": [],
   "qredit_main_hosts": [],
   "ripa_main_hosts": [],
+  "rise_main_hosts": [],
+  "rise_test_hosts": [],
   "sauco_main_hosts": [],
   "shift_main_hosts": [],
   "shift_test_hosts": [],
-  "swapblocks_main_hosts": [],
-  "swapblocks_test_hosts": []  
+  "swapblocks_main_hosts": []
 }
