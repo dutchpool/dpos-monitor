@@ -4,7 +4,7 @@
   "base_hosts": [
     {
       "name": "Seed server",
-      "host": "http://185.85.18.192:4100"
+      "host": "http://136.144.215.24:4103"
     }
   ],
   "peer_nodes": []
