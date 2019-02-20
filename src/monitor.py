@@ -4,7 +4,7 @@ import argparse
 from distutils.version import StrictVersion
 from ping import ping_servers
 from printing import __print
-from status import check_status, check_lisk_status
+from status import check_status, check_lisk_status, check_arkv2_status
 from telegram import __send_telegram_message, set_telegram_conf
 
 __author__ = 'dutch_pool'
@@ -92,6 +92,9 @@ def check_nodes(environment, nodes_to_monitor):
         if environment.startswith("lisk"):
             status_result = check_lisk_status(environment_conf, nodes_to_monitor, conf)
             processed_status_results = check_lisk_status_nodes(status_result)
+        elif environment.startswith("qredit"):
+            status_result = check_arkv2_status(environment_conf, nodes_to_monitor, conf)
+            processed_status_results = check_arkv2_status_nodes(status_result)
         elif conf["check_block_height"] or conf["check_version"]:
             status_result = check_status(environment_conf, nodes_to_monitor, conf)
             processed_status_results = check_status_nodes(status_result)
@@ -307,6 +310,7 @@ def check_version(host, version, version_consensus, total_nodes):
     return None
 
 
+# Lisk 1.0
 def check_lisk_status_nodes(status_result):
     max_block_height_and_version = get_lisk_max_block_height(status_result)
     # processed_status_results = []
@@ -411,6 +415,130 @@ def get_lisk_consensus_messages(status_result, max_block_height):
 
 
 def check_lisk_block_height(host, max_block_height, block_height_consensus, total_nodes):
+    if host.block_height == 0:
+        return host.name + ":\nCould not reach the server, it might be down!\n"
+    elif host.block_height == 403:
+        return host.name + ":\nNode api access denied. Is the monitoring server ip whitelisted in the node's config?\n"
+    elif host.block_height == 500:
+        return host.name + ":\nNo (valid) response from the server, it might be down!\n"
+    elif host.block_height < max_block_height - conf["max_blocks_behind"]:
+        consensus_percentage = int((block_height_consensus / total_nodes * 100) * 100) / 100
+        block_height_difference = max_block_height - host.block_height
+        line1 = host.name
+        line2 = ":\nincorrect block height " + str(host.block_height) + " (-" + str(block_height_difference) + ")"
+        line3 = "\nshould be " + str(max_block_height)
+        line4 = "\nconsensus " + str(consensus_percentage) + "% " + str(block_height_consensus) + "/" + str(
+            total_nodes) + "\n"
+
+        return line1 + line2 + line3 + line4
+    return None
+
+
+# Arkv2
+def check_arkv2_status_nodes(status_result):
+    max_block_height_and_version = get_arkv2_max_block_height(status_result)
+    # processed_status_results = []
+    max_block_height = max_block_height_and_version["max_block_height"]
+    version = max_block_height_and_version["version"]
+    monitored_nodes_messages = []
+
+    consensus = get_consensus_messages(status_result, max_block_height, version)
+
+    # total_nodes = len(status_result["base_hosts"]) + len(status_result["peer_nodes"]) + len(
+    # status_result["nodes_to_monitor"])
+    for host in status_result["nodes_to_monitor"]:
+        try:
+            if conf["check_block_height"]:
+                # Block height
+                block_height_message = check_block_height(host, max_block_height, consensus["block_height_consensus"],
+                                                          consensus["total_nodes"])
+                if block_height_message is not None:
+                    monitored_nodes_messages.append(block_height_message)
+        except Exception as e:
+            __print('Unable to get block height and version messages')
+            print(e)
+    return monitored_nodes_messages
+
+
+def get_arkv2_max_block_height(status_result):
+    try:
+        max_block_height = 0
+        version = "0.0.0"
+        for host in status_result["base_hosts"]:
+            if conf["check_block_height"] and host.block_height > max_block_height:
+                max_block_height = host.block_height
+            for peer in host.peers:
+                if "height" in peer:
+                    if conf["check_block_height"] and peer["height"] > max_block_height:
+                        max_block_height = peer["height"]
+        for host in status_result["peer_nodes"]:
+            if conf["check_block_height"] and host.block_height > max_block_height:
+                max_block_height = host.block_height
+            for peer in host.peers:
+                if "height" in peer:
+                    if conf["check_block_height"] and peer["height"] > max_block_height:
+                        max_block_height = peer["height"]
+        for host in status_result["nodes_to_monitor"]:
+            if conf["check_block_height"] and host.block_height > max_block_height:
+                max_block_height = host.block_height
+            for peer in host.peers:
+                if "height" in peer:
+                    if conf["check_block_height"] and peer["height"] > max_block_height:
+                        max_block_height = peer["height"]
+        return {"max_block_height": max_block_height, "version": version}
+    except Exception as e:
+        __print('Unable to get max block height and version')
+        print(e)
+        return {"max_block_height": 0, "version": "0.0.0"}
+
+
+def get_arkv2_consensus_messages(status_result, max_block_height):
+    block_height_consensus = 0
+    total_nodes = 0
+    for host in status_result["base_hosts"]:
+        total_nodes += 1
+        try:
+            if host.block_height == max_block_height:
+                block_height_consensus += 1
+            for peer in host.peers:
+                total_nodes += 1
+                if "height" in peer:
+                    if max_block_height >= peer["height"] >= max_block_height - 2:
+                        block_height_consensus += 1
+        except Exception as e:
+            __print('Unable to get block height and version messages')
+            print(e)
+    for host in status_result["peer_nodes"]:
+        total_nodes += 1
+        try:
+            if host.block_height == max_block_height:
+                block_height_consensus += 1
+            for peer in host.peers:
+                total_nodes += 1
+                if "height" in peer:
+                    if max_block_height >= peer["height"] >= max_block_height - 2:
+                        block_height_consensus += 1
+        except Exception as e:
+            __print('Unable to get block height and version messages')
+            print(e)
+    for host in status_result["nodes_to_monitor"]:
+        total_nodes += 1
+        try:
+            if host.block_height == max_block_height:
+                block_height_consensus += 1
+            for peer in host.peers:
+                total_nodes += 1
+                if "height" in peer:
+                    if max_block_height >= peer["height"] >= max_block_height - 2:
+                        block_height_consensus += 1
+        except Exception as e:
+            __print('Unable to get block height and version messages')
+            print(e)
+    return {"block_height_consensus": block_height_consensus,
+            "version_consensus": total_nodes, "total_nodes": total_nodes}
+
+
+def check_arkv2_block_height(host, max_block_height, block_height_consensus, total_nodes):
     if host.block_height == 0:
         return host.name + ":\nCould not reach the server, it might be down!\n"
     elif host.block_height == 403:
