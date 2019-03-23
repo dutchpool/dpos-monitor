@@ -92,7 +92,7 @@ def check_nodes(environment, nodes_to_monitor):
         if environment.startswith("lisk"):
             status_result = check_lisk_status(environment_conf, nodes_to_monitor, conf)
             processed_status_results = check_lisk_status_nodes(status_result)
-        elif environment.startswith("qredit") or environment.startswith("kapu"):
+        elif environment.startswith("qredit"):
             status_result = check_arkv2_status(environment_conf, nodes_to_monitor, conf)
             processed_status_results = check_arkv2_status_nodes(status_result)
         elif conf["check_block_height"] or conf["check_version"]:
