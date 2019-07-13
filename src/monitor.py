@@ -27,6 +27,10 @@ def check_all_nodes():
     if "adamant_main_hosts" in conf:
         results.append(
             {"environment": "Adamant main", "messages": check_nodes("adamant_main", conf["adamant_main_hosts"])})
+    if "ark_dev_hosts" in conf:
+            results.append({"environment": "Ark dev", "messages": check_nodes("ark_dev", conf["ark_dev_hosts"])})
+    if "ark_main_hosts" in conf:
+        results.append({"environment": "Ark main", "messages": check_nodes("ark_main", conf["ark_main_hosts"])})
     if "blockpool_main_hosts" in conf:
         results.append({"environment": "Blockpool main", "messages": check_nodes("blockpool_main", conf["blockpool_main_hosts"])})
     if "kapu_main_hosts" in conf:
@@ -92,7 +96,7 @@ def check_nodes(environment, nodes_to_monitor):
         if environment.startswith("lisk"):
             status_result = check_lisk_status(environment_conf, nodes_to_monitor, conf)
             processed_status_results = check_lisk_status_nodes(status_result)
-        elif environment.startswith("qredit"):
+        elif environment.startswith("qredit") or environment.startswith("ark"):
             status_result = check_arkv2_status(environment_conf, nodes_to_monitor, conf)
             processed_status_results = check_arkv2_status_nodes(status_result)
         elif conf["check_block_height"] or conf["check_version"]:
@@ -471,6 +475,9 @@ def get_arkv2_max_block_height(status_result):
                 if "height" in peer:
                     if conf["check_block_height"] and peer["height"] > max_block_height:
                         max_block_height = peer["height"]
+                # if "version" in peer:
+                #     if conf["check_version"] and StrictVersion(peer.version) > StrictVersion(version):
+                #         version = peer.version
         for host in status_result["peer_nodes"]:
             if conf["check_block_height"] and host.block_height > max_block_height:
                 max_block_height = host.block_height
@@ -478,6 +485,9 @@ def get_arkv2_max_block_height(status_result):
                 if "height" in peer:
                     if conf["check_block_height"] and peer["height"] > max_block_height:
                         max_block_height = peer["height"]
+                # if "version" in peer:
+                #     if conf["check_version"] and StrictVersion(peer.version) > StrictVersion(version):
+                #         version = peer.version
         for host in status_result["nodes_to_monitor"]:
             if conf["check_block_height"] and host.block_height > max_block_height:
                 max_block_height = host.block_height
@@ -485,6 +495,9 @@ def get_arkv2_max_block_height(status_result):
                 if "height" in peer:
                     if conf["check_block_height"] and peer["height"] > max_block_height:
                         max_block_height = peer["height"]
+                # if "version" in peer:
+                #     if conf["check_version"] and StrictVersion(peer.version) > StrictVersion(version):
+                #         version = peer.version
         return {"max_block_height": max_block_height, "version": version}
     except Exception as e:
         __print('Unable to get max block height and version')

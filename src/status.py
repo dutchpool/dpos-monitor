@@ -265,7 +265,7 @@ def get_arkv2_base_hosts_status(hosts, conf):
                 block_height = get_arkv2_block_height(host)
             # if conf["check_version"]:
             #     version = get_version(host)
-            peers = get_peers(host)
+            peers = get_arkv2_peers(host)
             base_hosts.append(Host(host["name"], host["host"], block_height, version, peers))
         except Exception as e:
             __print('Unable to check base host status ' + host["host"])
@@ -286,8 +286,8 @@ def get_arkv2_peer_nodes_status(peers, conf):
             if conf["check_block_height"]:
                 block_height = get_arkv2_block_height(host)
             # if conf["check_version"]:
-            #     version = get_version(host)
-            peers = get_peers(host)
+            #     version = get_arkv2_version(host)
+            peers = get_arkv2_peers(host)
             peer_nodes.append(Host(host["name"], host["host"], block_height, version, peers))
             index += 1
         except Exception as e:
@@ -306,7 +306,7 @@ def get_arkv2_nodes_to_monitor_status(nodes, conf):
             if conf["check_block_height"]:
                 block_height = get_arkv2_block_height(host)
             # if conf["check_version"]:
-            #     version = get_version(host)
+            #     version = get_arkv2_version(host, node["host"])
             peers = get_arkv2_peers(host)
             nodes_to_monitor.append(Host(host["name"], host["host"], block_height, version, peers))
         except Exception as e:
@@ -337,7 +337,7 @@ def get_arkv2_block_height(host):
 
 def get_arkv2_peers(host):
     try:
-        uri = host["host"] + "/api/peers?limit=100&offset=0&sort=height:desc"
+        uri = host["host"] + "/api/peers?limit=100&offset=0"
         headers = {'Content-Type': 'application/json', 'API-Version': '2'}
         response = requests.get(uri, timeout=10, headers=headers)
         if response.status_code == 200:
