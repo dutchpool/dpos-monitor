@@ -1,0 +1,32 @@
+{
+  "path": "",
+  "manager_file": "",
+  "base_hosts": [],
+  "peer_nodes": [
+    {
+      "name": "Seed server1",
+      "ip": "167.114.29.51",
+      "port": 4003
+    },
+    {
+      "name": "Seed server2",
+      "ip": "167.114.29.52",
+      "port": 4003
+    },
+    {
+      "name": "Seed server3",
+      "ip": "167.114.29.53",
+      "port": 4003
+    },
+    {
+      "name": "Seed server4",
+      "ip": "167.114.29.54",
+      "port": 4003
+    },
+    {
+      "name": "Seed server5",
+      "ip": "167.114.29.55",
+      "port": 4003
+    }
+  ]
+}
