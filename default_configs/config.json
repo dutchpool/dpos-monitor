@@ -9,6 +9,8 @@
     "chat_id": ""
   },
   "adamant_main_hosts": [],
+  "ark_dev_hosts": [],
+  "ark_main_hosts": [],
   "blockpool_main_hosts": [],
   "kapu_main_hosts": [],
   "lisk_main_hosts": [],
