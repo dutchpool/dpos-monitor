@@ -12,6 +12,8 @@
   "ark_dev_hosts": [],
   "ark_main_hosts": [],
   "blockpool_main_hosts": [],
+  "compendia_dev_hosts": [],
+  "compendia_main_hosts": [],
   "kapu_main_hosts": [],
   "lisk_main_hosts": [],
   "lisk_test_hosts": [],

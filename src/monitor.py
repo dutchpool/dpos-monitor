@@ -33,6 +33,10 @@ def check_all_nodes():
         results.append({"environment": "Ark main", "messages": check_nodes("ark_main", conf["ark_main_hosts"])})
     if "blockpool_main_hosts" in conf:
         results.append({"environment": "Blockpool main", "messages": check_nodes("blockpool_main", conf["blockpool_main_hosts"])})
+    if "compendia_dev_hosts" in conf:
+            results.append({"environment": "Compendia dev", "messages": check_nodes("compendia_dev", conf["compendia_dev_hosts"])})
+    if "compendia_main_hosts" in conf:
+        results.append({"environment": "Compendia main", "messages": check_nodes("compendia_main", conf["compendia_main_hosts"])})
     if "kapu_main_hosts" in conf:
         results.append({"environment": "Kapu main", "messages": check_nodes("kapu_main", conf["kapu_main_hosts"])})
     if "lisk_main_hosts" in conf:
@@ -96,7 +100,7 @@ def check_nodes(environment, nodes_to_monitor):
         if environment.startswith("lisk"):
             status_result = check_lisk_status(environment_conf, nodes_to_monitor, conf)
             processed_status_results = check_lisk_status_nodes(status_result)
-        elif environment.startswith("qredit") or environment.startswith("ark"):
+        elif environment.startswith("qredit") or environment.startswith("ark") or environment.startswith("compendia"):
             status_result = check_arkv2_status(environment_conf, nodes_to_monitor, conf)
             processed_status_results = check_arkv2_status_nodes(status_result)
         elif conf["check_block_height"] or conf["check_version"]:
