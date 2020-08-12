@@ -14,11 +14,6 @@
       "port": 4003
     },
     {
-      "name": "Seed server3",
-      "ip": "209.97.143.149",
-      "port": 4003
-    },
-    {
       "name": "Seed server4",
       "ip": "167.71.36.13",
       "port": 4003
