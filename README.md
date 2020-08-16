@@ -1,7 +1,7 @@
 # DPoS Monitor
 Current version 1.0.0
 
-Currently the dpos-monitor can monitor nodes for Adamant, Blockpool, Kapu, Lisk 1.0, Lwf, Onz, Qredit, Ripa, Rise, Sauco, Shift and Swapblocks.
+Currently the dpos-monitor can monitor nodes for the platforms listed in [default_configs](default_configs).
 It can:
 
 * Ping your nodes from remote servers.
