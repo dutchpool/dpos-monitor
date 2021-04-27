@@ -23,7 +23,7 @@
     * The max number of blocks you accept your node to be behind the current block height
 
 ```
- "lisk_main_hosts": [],
+  "lisk_main_hosts": [],
   "lisk_test_hosts": [],
   "lwf_main_hosts": [],
   "lwf_test_hosts": [],
