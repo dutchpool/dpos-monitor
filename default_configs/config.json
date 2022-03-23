@@ -9,11 +9,11 @@
     "chat_id": ""
   },
   "adamant_main_hosts": [],
-  "ark_dev_hosts": [],
   "ark_main_hosts": [],
+  "ark_dev_hosts": [],
   "blockpool_main_hosts": [],
-  "compendia_dev_hosts": [],
   "compendia_main_hosts": [],
+  "compendia_dev_hosts": [],
   "kapu_main_hosts": [],
   "lisk_main_hosts": [],
   "lisk_test_hosts": [],
@@ -44,5 +44,7 @@
   "sauco_main_hosts": [],
   "shift_main_hosts": [],
   "shift_test_hosts": [],
+  "solar_main_hosts": [],
+  "solar_test_hosts": [],
   "swapblocks_main_hosts": []
 }

@@ -27,16 +27,19 @@ def check_all_nodes():
     if "adamant_main_hosts" in conf:
         results.append(
             {"environment": "Adamant main", "messages": check_nodes("adamant_main", conf["adamant_main_hosts"])})
-    if "ark_dev_hosts" in conf:
-            results.append({"environment": "Ark dev", "messages": check_nodes("ark_dev", conf["ark_dev_hosts"])})
     if "ark_main_hosts" in conf:
         results.append({"environment": "Ark main", "messages": check_nodes("ark_main", conf["ark_main_hosts"])})
+    if "ark_dev_hosts" in conf:
+        results.append({"environment": "Ark dev", "messages": check_nodes("ark_dev", conf["ark_dev_hosts"])})
     if "blockpool_main_hosts" in conf:
-        results.append({"environment": "Blockpool main", "messages": check_nodes("blockpool_main", conf["blockpool_main_hosts"])})
+        results.append(
+            {"environment": "Blockpool main", "messages": check_nodes("blockpool_main", conf["blockpool_main_hosts"])})
     if "compendia_dev_hosts" in conf:
-            results.append({"environment": "Compendia dev", "messages": check_nodes("compendia_dev", conf["compendia_dev_hosts"])})
+        results.append(
+            {"environment": "Compendia dev", "messages": check_nodes("compendia_dev", conf["compendia_dev_hosts"])})
     if "compendia_main_hosts" in conf:
-        results.append({"environment": "Compendia main", "messages": check_nodes("compendia_main", conf["compendia_main_hosts"])})
+        results.append(
+            {"environment": "Compendia main", "messages": check_nodes("compendia_main", conf["compendia_main_hosts"])})
     if "kapu_main_hosts" in conf:
         results.append({"environment": "Kapu main", "messages": check_nodes("kapu_main", conf["kapu_main_hosts"])})
     if "lisk_main_hosts" in conf:
@@ -56,7 +59,11 @@ def check_all_nodes():
     if "oxy_test_hosts" in conf:
         results.append({"environment": "Oxy test", "messages": check_nodes("oxy_test", conf["oxy_test_hosts"])})
     if "qredit_main_hosts" in conf:
-        results.append({"environment": "Qredit main", "messages": check_nodes("qredit_main", conf["qredit_main_hosts"])})
+        results.append(
+            {"environment": "Qredit main", "messages": check_nodes("qredit_main", conf["qredit_main_hosts"])})
+    if "qreditv2_main_hosts" in conf:
+        results.append(
+            {"environment": "Qreditv2 main", "messages": check_nodes("qreditv2_main", conf["qreditv2_main_hosts"])})
     if "ripa_main_hosts" in conf:
         results.append({"environment": "Ripa main", "messages": check_nodes("ripa_main", conf["ripa_main_hosts"])})
     if "rise_main_hosts" in conf:
@@ -69,12 +76,16 @@ def check_all_nodes():
         results.append({"environment": "Shift main", "messages": check_nodes("shift_main", conf["shift_main_hosts"])})
     if "shift_test_hosts" in conf:
         results.append({"environment": "Shift test", "messages": check_nodes("shift_test", conf["shift_test_hosts"])})
-    if "swapblocks_test_hosts" in conf:
-        results.append({"environment": "Swapblocks test",
-                        "messages": check_nodes("swapblocks_test", conf["swapblocks_test_hosts"])})
+    if "solar_main_hosts" in conf:
+        results.append({"environment": "Solar main", "messages": check_nodes("solar_main", conf["solar_main_hosts"])})
+    if "solar_test_hosts" in conf:
+        results.append({"environment": "Solar test", "messages": check_nodes("solar_test", conf["solar_test_hosts"])})
     if "swapblocks_main_hosts" in conf:
         results.append({"environment": "Swapblocks main",
                         "messages": check_nodes("swapblocks_main", conf["swapblocks_main_hosts"])})
+    if "swapblocks_test_hosts" in conf:
+        results.append({"environment": "Swapblocks test",
+                        "messages": check_nodes("swapblocks_test", conf["swapblocks_test_hosts"])})
 
     complete_message = ""
     for result in results:
@@ -100,7 +111,8 @@ def check_nodes(environment, nodes_to_monitor):
         if environment.startswith("lisk"):
             status_result = check_lisk_status(environment_conf, nodes_to_monitor, conf)
             processed_status_results = check_lisk_status_nodes(status_result)
-        elif environment.startswith("qredit") or environment.startswith("ark") or environment.startswith("compendia"):
+        elif environment.startswith("qredit") or environment.startswith("ark") or environment.startswith("compendia") \
+                or environment.startswith("solar"):
             status_result = check_arkv2_status(environment_conf, nodes_to_monitor, conf)
             processed_status_results = check_arkv2_status_nodes(status_result)
         elif conf["check_block_height"] or conf["check_version"]:
