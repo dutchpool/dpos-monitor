@@ -90,10 +90,10 @@ def check_all_nodes():
     complete_message = ""
     for result in results:
         if len(result["messages"]) > 0:
-            complete_message += "***" + result["environment"] + "***\n"
+            complete_message += "<b>" + result["environment"] + "</b>\n"
             for message in result["messages"]:
                 complete_message += message + "\n"
-    if complete_message is not "":
+    if complete_message != "":
         __send_telegram_message(complete_message)
     print(complete_message)
 
@@ -318,7 +318,7 @@ def check_version(host, version, version_consensus, total_nodes):
         return host.name + ":\nNode api access denied. Is the monitoring server ip whitelisted in the node's config?\n"
     elif host.version == "500":
         return host.name + ":\nNo (valid) response from the server, it might be down!\n"
-    elif StrictVersion(host.version) < StrictVersion(version) and version is not "403" and version is not "500":
+    elif StrictVersion(host.version) < StrictVersion(version) and version != "403" and version != "500":
         consensus_percentage = int((version_consensus / total_nodes * 100) * 100) / 100
         line1 = host.name
         line2 = ":\nincorrect version " + host.version
